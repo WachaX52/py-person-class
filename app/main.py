@@ -12,15 +12,11 @@ def create_person_list(people: list[dict]) -> list[Person]:
 
     person_list = [Person(p["name"], p["age"]) for p in people]
 
-    for person_data in people:
-        current_person = Person.people[person_data["name"]]
+    for person_data, person_instance in zip(people, person_list):
+        if person_data.get("wife"):
+            person_instance.wife = Person.people[person_data["wife"]]
 
-        wife_name = person_data.get("wife")
-        if wife_name:
-            current_person.wife = Person.people[wife_name]
-
-        husband_name = person_data.get("husband")
-        if husband_name:
-            current_person.husband = Person.people[husband_name]
+        if person_data.get("husband"):
+            person_instance.husband = Person.people[person_data["husband"]]
 
     return person_list
